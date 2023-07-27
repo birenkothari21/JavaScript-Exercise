@@ -1,0 +1,73 @@
+*** Difference between ES5 vs ES6
+
+    ->  ES5 is Supported in basically all browser, including old IE
+        ES6 Supported in modern browsers, can (mostly) be transpiled to ES5
+
+    ->  ES5 : variable declared using 'var' keyword
+        ES6 : variable declared using 'let', 'const' also
+
+    ->  ES5 : some missing features 
+        ES6 : new features that helps us to write cleaner, better and faster code
+
+*** Difference between let, var and const
+
+    -> var :
+        - used to declare variable 
+        - scope : Functional & global
+        - can reassign the value
+        - can redeclare the same variable using var
+
+    -> let :
+        - used to declare a variable
+        - scope : Block scope
+        - can reassign value
+        - can't redeclare variable with same name using let
+    
+    -> const :
+        - used to declare a variable
+        - scope : Block scope
+        - can't reassign new value of primitive variable, can change the property value of object
+        - can't redeclare variable with same name using const
+
+*** Hoisting :
+    -> hoisting is a method to use the variable and functions before declaring it.
+    -> use let & const variable before declarition : 'cannot access before initialization' error occuured
+    -> use var variable before declaration : undefined value returned
+    -> functions can be call befire declare it
+
+*** Strict mode and Non-strict mode
+    -> we can not assign a value without declaring variable using let, var, const keywords in strict mode
+    -> we can not set the variable name which is keyword in JavaScript
+
+*** How Code is parsed and compiled ?
+
+    -> execution of JavaScript is divided into two parts
+        [1] Intepreter :
+            - it loads the code, read and starts to execute the code and convert into bytecode
+            - and send the bytecode to the compiler
+
+        [2] Compiler(Just in Time) :
+            - compiler receivs the interpreted byte code from the intepreter
+            - then compiler compile the byte code and give error if occuured
+            - then compiler convert code into machine code and execute the code and give output
+        
+*** How code is Executed ?
+    -> First funtions and variables are stored in heap memory 
+    -> then according to code flow, the methods and operations is stored in stack
+    -> and one by one operation is executed
+
+*** Primitive and Reference values
+    -> Primitive Values :
+        - string, number, boolean, undefined, null
+        - stored in stack
+        - variable stores value itself
+        - copies the value when we copy the variable into another variable
+    
+    -> Reference Values :
+        - objects
+        - stored in heap memory
+        - variable store the reference / location
+        - copies the location / address of the variable when we copy one variable into another
+
+*** Garbage Collection :
+    -> garbage collector removes the unused objects
