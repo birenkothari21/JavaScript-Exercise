@@ -11,5 +11,8 @@ console.log('Array After Filter : ', ar2);
 
 // Multiplication of Array Elements...
 const arr = [10, 20, 3, 45, 2, 4, 50];
-const product = arr.reduce((prev, curr) => prev * curr, 1);
+const product = arr.reduce((prev, curr) => {
+    console.log(prev, curr);
+    return prev * curr;
+}, 1);
 console.log(`Multiplication of all elements of ${arr} is : ${product}`);
