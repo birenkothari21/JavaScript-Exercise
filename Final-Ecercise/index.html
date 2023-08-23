@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0"
+		/>
+		<title>Final Exercise</title>
+	</head>
+	<body>
+		<section id="currencyTable">
+			<!-- currency table will be displayed here... -->
+			<table
+				width="50%"
+				border="1px solid black"
+				id="currTbl"
+			>
+				<thead>
+					<tr>
+						<th>Currency</th>
+						<th>Number of Currency</th>
+						<th>Total Value</th>
+					</tr>
+				</thead>
+				<tbody></tbody>
+			</table>
+		</section>
+
+		<section id="addChange">
+			<!-- add change form will be displayed here... -->
+			<h3>Add Change :</h3>
+			<form
+				action=""
+				method="post"
+				id="addCurrencyForm"
+			>
+				<table width="25%">
+					<tr>
+						<td>
+							<label for="currency"> Currency : </label>
+						</td>
+						<td>
+							<input
+								type="text"
+								id="currency"
+							/>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="numOfCurrency">
+								Number of Currency :
+							</label>
+						</td>
+						<td>
+							<input
+								type="text"
+								id="numOfCurrency"
+							/>
+						</td>
+					</tr>
+					<tr>
+						<td
+							colspan="2"
+							align="center"
+						>
+							<input
+								type="submit"
+								value="Add"
+							/>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</section>
+
+		<section id="calcChange">
+			<!-- calculate change form will be displayed here... -->
+			<h3>Calculate Change :</h3>
+			<form
+				action=""
+				method="post"
+				id="calcChangeForm"
+			>
+				<table width="25%">
+					<tr>
+						<td>
+							<label for="givenAmount"> Given Amount : </label>
+						</td>
+						<td>
+							<input
+								type="text"
+								id="givenAmount"
+							/>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="actualAmount">
+								Number of Currency :
+							</label>
+						</td>
+						<td>
+							<input
+								type="text"
+								id="actualAmount"
+							/>
+						</td>
+					</tr>
+					<tr>
+						<td
+							colspan="2"
+							align="center"
+						>
+							<input
+								type="submit"
+								value="calcChange"
+							/>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</section>
+
+		<script src="app.js"></script>
+	</body>
+</html>
