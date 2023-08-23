@@ -86,6 +86,7 @@ btnGetCS.addEventListener("click", () => {
 	// Getting Value from Cookie-Storage...
 
 	let cookieData = document.cookie.split(";").map((i) => i.trim().split("="));
+
 	for (const i of cookieData) {
 		console.log(i);
 	}
