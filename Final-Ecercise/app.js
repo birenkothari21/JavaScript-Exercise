@@ -6,11 +6,12 @@ const givenAmount = document.getElementById("givenAmount");
 const actualAmount = document.getElementById("actualAmount");
 const calcChangeForm = document.getElementById("calcChangeForm");
 
-const currTbl = document.querySelector("#currTbl tbody");
+const currTbl = document.querySelector("#currencyTable #currTbl tbody");
+const rtnCurrTbl = document.querySelector("#rtnCurrTable #currTbl tbody");
 const currencyTable = [];
 
-function generateCurrencyTable(ct) {
-	currTbl.textContent = "";
+function generateCurrencyTable(table, ct) {
+	table.textContent = "";
 	ct.forEach((item) => {
 		const tr = document.createElement("tr");
 		for (const key in item) {
@@ -18,7 +19,7 @@ function generateCurrencyTable(ct) {
 			td.textContent = item[key];
 			tr.append(td);
 		}
-		currTbl.append(tr);
+		table.append(tr);
 	});
 }
 
@@ -84,12 +85,15 @@ function addCurrencyHandler() {
 		}
 	});
 
-	generateCurrencyTable(currencyTable);
+	generateCurrencyTable(currTbl, currencyTable);
 }
 
 function calcChangeHandler() {
 	const enteredGivenAmount = parseInt(givenAmount.value);
 	const enteredActualAmount = parseInt(actualAmount.value);
+
+	let returnAmount = enteredGivenAmount - enteredActualAmount;
+	let rctbl = [];
 
 	if (
 		!validateInput(enteredGivenAmount) ||
@@ -98,6 +102,42 @@ function calcChangeHandler() {
 		alert("Pleas, Enter Valid Currency...");
 		return;
 	}
+
+	let ctClone = structuredClone(currencyTable);
+
+	ctClone.forEach((element) => {
+		if (returnAmount >= element.currency) {
+			let counter = 0;
+			do {
+				returnAmount -= element.currency;
+				element.numOfCurrency--;
+				element.totalValue -= element.currency;
+				counter++;
+			} while (
+				returnAmount >= element.currency &&
+				element.numOfCurrency >= 0
+			);
+			const newRC = {
+				currency: element.currency,
+				numOfCurrency: counter,
+				totalValue: element.currency * counter,
+			};
+
+			console.log("Rtn_AMNT : ", returnAmount);
+			rctbl.push(newRC);
+		}
+	});
+
+	generateCurrencyTable(rtnCurrTbl, rctbl);
+
+	if (returnAmount === 0) {
+		alert("Please, take your change...");
+	} else {
+		alert("Sorry, we haven't enough changes");
+	}
+
+	console.log(rctbl);
+	console.log(ctClone);
 }
 
 addCurrencyForm.addEventListener("submit", (event) => {
