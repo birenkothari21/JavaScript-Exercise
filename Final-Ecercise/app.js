@@ -12,15 +12,28 @@ const currencyTable = [];
 
 function generateCurrencyTable(table, ct) {
 	table.textContent = "";
+	let sum = 0;
 	ct.forEach((item) => {
 		const tr = document.createElement("tr");
 		for (const key in item) {
 			const td = document.createElement("td");
+			td.style.textAlign = "right";
 			td.textContent = item[key];
 			tr.append(td);
+			if (key === "totalValue") {
+				sum += item[key];
+			}
 		}
 		table.append(tr);
 	});
+	const trTotal = document.createElement("tr");
+	const tdTotal = document.createElement("td");
+	tdTotal.style.textAlign = "right";
+	tdTotal.colSpan = 3;
+	tdTotal.textContent = `Total : ${sum}`;
+	trTotal.append(tdTotal);
+	table.append(trTotal);
+	console.log(ct);
 }
 
 function validateInput(input) {
@@ -53,10 +66,7 @@ function addCurrencyHandler() {
 	} else {
 		let flag = false;
 		for (const curr of currencyTable) {
-			if (
-				curr.hasOwnProperty("currency") &&
-				curr.currency === enteredCurrency
-			) {
+			if (curr.currency === enteredCurrency) {
 				curr.numOfCurrency += enteredNumOfCurrency;
 				curr.totalValue += enteredCurrency * enteredNumOfCurrency;
 				flag = true;
@@ -76,16 +86,47 @@ function addCurrencyHandler() {
 	}
 
 	currencyTable.sort((a, b) => {
-		if (a.currency > b.currency) {
-			return -1;
-		} else if (a.currency < b.currency) {
-			return 1;
-		} else {
-			return 0;
-		}
+		return a.currency < b.currency;
 	});
 
 	generateCurrencyTable(currTbl, currencyTable);
+}
+
+function findCurrencyCombination(currencies, rtnAmount) {
+	const combinations = [];
+
+	function generateCombinations(
+		currentCombination,
+		remainingAmount,
+		currIndex
+	) {
+		if (remainingAmount === 0) {
+			combinations.push(currentCombination);
+			return;
+		}
+
+		if (remainingAmount < 0 || currIndex >= currencies.length) {
+			return;
+		}
+
+		const currentCurr = currencies[currIndex];
+
+		for (let qty = 0; qty <= currentCurr.numOfCurrency; qty++) {
+			generateCombinations(
+				currentCombination.concat({
+					currency: currentCurr.currency,
+					numOfCurrency: qty,
+					totalValue: currentCurr.currency * qty,
+				}),
+				remainingAmount - currentCurr.currency * qty,
+				currIndex + 1
+			);
+		}
+	}
+
+	generateCombinations([], rtnAmount, 0);
+
+	return combinations;
 }
 
 function calcChangeHandler() {
@@ -103,7 +144,41 @@ function calcChangeHandler() {
 		return;
 	}
 
-	let ctClone = structuredClone(currencyTable);
+	let rtn = findCurrencyCombination(currencyTable, returnAmount);
+	console.log(rtn);
+
+	if (rtn.length > 0) {
+		let minCurr = 0;
+		let minCurrInd = 0;
+		for (let i = 0; i < rtn.length; i++) {
+			let sumCurr = rtn[i].reduce((p, c) => {
+				return (p += c.numOfCurrency);
+			}, 0);
+
+			if (sumCurr < minCurr || i === 0) {
+				minCurr = sumCurr;
+				minCurrInd = i;
+			}
+		}
+
+		rtn[minCurrInd].forEach((ele) => {
+			if (ele.numOfCurrency > 0) {
+				rctbl.push(ele);
+
+				currencyTable.forEach((ec) => {
+					if (ec.currency === ele.currency) {
+						ec.numOfCurrency -= ele.numOfCurrency;
+						ec.totalValue = ec.currency * ec.numOfCurrency;
+					}
+				});
+			}
+		});
+
+		generateCurrencyTable(rtnCurrTbl, rctbl);
+		generateCurrencyTable(currTbl, currencyTable);
+	} else {
+		alert("Sorry, We Have Not Enough Changes...");
+	}
 
 	ctClone.forEach((element) => {
 		if (returnAmount >= element.currency) {
